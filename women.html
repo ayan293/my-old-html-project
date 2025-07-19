@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éclat | Women's Collection</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@400;500;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Lenis.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.0/dist/lenis.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <!-- Lenis.js -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+     <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">ÉCLAT</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#" class="active">Women</a>
+            <a href="#">Collections</a>
+            <a href="#">Journal</a>
+        </div>
+        <div class="nav-icons">
+           
+            <i class="fas fa-user"></i>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <!-- Cart Dropdown -->
+        <div class="cart-dropdown">
+            <div class="cart-header">
+                <h4 class="cart-title">Your Cart</h4>
+                <button class="close-cart">&times;</button>
+            </div>
+            <div class="cart-items">
+                <div class="empty-cart">Your cart is empty</div>
+                <!-- Cart items will be added here dynamically -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Subtotal:</span>
+                    <span class="cart-subtotal">$0.00</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-primary view-cart" style="width: 100%;">View Cart</button>
+                    <button class="btn btn-secondary checkout" style="width: 100%;">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#" class="active">Women</a>
+            <a href="#">Collections</a>
+            <a href="#">Journal</a>
+        </div>
+        <div class="mobile-menu-icons">
+            <i class="fas fa-search"></i>
+            <i class="fas fa-user"></i>
+            <div class="cart-icon">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </div>
+
+  <section class="collection-hero">
+  <!-- 3D Background Canvas -->
+  <div id="collection-shape-bg"></div>
+  <div class="collection-hero-overlay"></div>
+
+  <!-- Text Content -->
+  <div class="collection-hero-content">
+    <h1 class="collection-hero-title">Women's Collection</h1>
+    <p class="collection-hero-subtitle">
+      Discover timeless elegance with our curated selection of premium womenswear,<br>
+      blending sophisticated design with exceptional craftsmanship.
+    </p>
+    <button class="btn btn-primary hero-btn">Shop New Arrivals</button>
+  </div>
+</section>
+
+
+<!-- Add this after the Collection Hero section -->
+<section class="global-search-section">
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="fullPageSearchInput" placeholder="Search all men's products..." autocomplete="off">
+            <button id="fullPageSearchBtn" class="search-btn">
+                <i class="fas fa-search"></i> Search
+            </button>
+        </div>
+        <div id="searchResultsContainer" class="search-results-container">
+            <!-- Results will appear here -->
+        </div>
+    </div>
+</section>
+
+    <!-- Collection Navigation -->
+    <section class="section" style="padding-top: 3rem; padding-bottom: 1rem;">
+        <div class="container">
+            <div class="collection-nav">
+                <a href="#" class="collection-nav-link active">All</a>
+                <a href="#" class="collection-nav-link">Dresses</a>
+                <a href="#" class="collection-nav-link">Tops</a>
+                <a href="#" class="collection-nav-link">Bottoms</a>
+                <a href="#" class="collection-nav-link">Outerwear</a>
+                <a href="#" class="collection-nav-link">Accessories</a>
+                <a href="#" class="collection-nav-link">New Arrivals</a>
+                <a href="#" class="collection-nav-link">Sale</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Content -->
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="sorting-bar">
+                <div class="sorting-options">
+                    <span class="sorting-label">Sort by:</span>
+                    <select class="sorting-select">
+                        <option value="featured">Featured</option>
+                        <option value="newest">Newest</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                    </select>
+                </div>
+                <div class="item-count">36 items</div>
+            </div>
+
+            <div class="collection-container">
+                <!-- Filter Sidebar -->
+                <div class="filter-sidebar">
+                    <div class="filter-mobile-toggle">
+                        <h3>Filters</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    
+                    <div class="filter-group active">
+                        <h3 class="filter-title">Category <i class="fas fa-chevron-down"></i></h3>
+                        <div class="filter-options active">
+                            <div class="filter-option">
+                                <input type="checkbox" id="category-dresses" checked>
+                                <label for="category-dresses">Dresses</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="category-tops" checked>
+                                <label for="category-tops">Tops</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="category-bottoms" checked>
+                                <label for="category-bottoms">Bottoms</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="category-outerwear" checked>
+                                <label for="category-outerwear">Outerwear</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="category-accessories" checked>
+                                <label for="category-accessories">Accessories</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 class="filter-title">Price <i class="fas fa-chevron-down"></i></h3>
+                        <div class="filter-options">
+                            <input type="range" min="0" max="1000" value="1000" class="price-range">
+                            <div class="price-range-values">
+                                <span>$0</span>
+                                <span>$1000+</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 class="filter-title">Color <i class="fas fa-chevron-down"></i></h3>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="color-black" checked>
+                                <label for="color-black">Black</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="color-white" checked>
+                                <label for="color-white">White</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="color-navy" checked>
+                                <label for="color-navy">Navy</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="color-pink" checked>
+                                <label for="color-pink">Pink</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="color-beige" checked>
+                                <label for="color-beige">Beige</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <h3 class="filter-title">Size <i class="fas fa-chevron-down"></i></h3>
+                        <div class="filter-options">
+                            <div class="filter-option">
+                                <input type="checkbox" id="size-xs" checked>
+                                <label for="size-xs">XS</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="size-s" checked>
+                                <label for="size-s">S</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="size-m" checked>
+                                <label for="size-m">M</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="size-l" checked>
+                                <label for="size-l">L</label>
+                            </div>
+                            <div class="filter-option">
+                                <input type="checkbox" id="size-xl" checked>
+                                <label for="size-xl">XL</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="filter-reset">Reset all filters</button>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-grid">
+                    <!-- Product 1 -->
+                    <div class="product-card">
+                        <div class="product-badge">New</div>
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Silk Slip Dress" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Silk Slip Dress</h3>
+                            <p class="product-price">$395</p>
+                            <button class="btn btn-primary add-to-cart" data-id="201" data-name="Silk Slip Dress" data-price="395" data-image="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 2 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Cashmere Sweater" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Cashmere Sweater</h3>
+                            <p class="product-price">$275</p>
+                            <button class="btn btn-primary add-to-cart" data-id="202" data-name="Cashmere Sweater" data-price="275" data-image="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 3 -->
+                    <div class="product-card">
+                        <div class="product-badge">Sale</div>
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Wool Trousers" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Wool Trousers</h3>
+                            <p class="product-price"><span class="original">$225</span> <span class="sale">$175</span></p>
+                            <button class="btn btn-primary add-to-cart" data-id="203" data-name="Wool Trousers" data-price="175" data-image="https://images.unsplash.com/photo-1554412933-514a83d2f3c8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 4 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Leather Jacket" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Leather Jacket</h3>
+                            <p class="product-price">$595</p>
+                            <button class="btn btn-primary add-to-cart" data-id="204" data-name="Leather Jacket" data-price="595" data-image="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 5 -->
+                    <div class="product-card">
+                        <div class="product-badge">New</div>
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Silk Blouse" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Silk Blouse</h3>
+                            <p class="product-price">$195</p>
+                            <button class="btn btn-primary add-to-cart" data-id="205" data-name="Silk Blouse" data-price="195" data-image="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <!-- Product 6 -->
+                    <div class="product-card">
+                        <div class="product-image-container">
+                            <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Leather Handbag" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">Leather Handbag</h3>
+                            <p class="product-price">$450</p>
+                            <button class="btn btn-primary add-to-cart" data-id="206" data-name="Leather Handbag" data-price="450" data-image="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination">
+                <a href="#" class="pagination-link"><i class="fas fa-chevron-left"></i></a>
+                <a href="#" class="pagination-link active">1</a>
+                <a href="#" class="pagination-link">2</a>
+                <a href="#" class="pagination-link">3</a>
+                <a href="#" class="pagination-link">4</a>
+                <a href="#" class="pagination-link"><i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-links a');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Filter Toggle
+        const filterGroups = document.querySelectorAll('.filter-group');
+        const filterMobileToggle = document.querySelector('.filter-mobile-toggle');
+
+        filterMobileToggle.addEventListener('click', () => {
+            filterGroups.forEach(group => {
+                group.classList.toggle('active');
+            });
+            filterMobileToggle.classList.toggle('active');
+        });
+
+        filterGroups.forEach(group => {
+            const title = group.querySelector('.filter-title');
+            const options = group.querySelector('.filter-options');
+
+            title.addEventListener('click', () => {
+                options.classList.toggle('active');
+                title.classList.toggle('active');
+            });
+        });
+
+        // Cart functionality
+        const cartIcon = document.querySelector('.cart-icon');
+        const cartDropdown = document.querySelector('.cart-dropdown');
+        const closeCart = document.querySelector('.close-cart');
+        const cartCount = document.querySelector('.cart-count');
+        const cartItemsContainer = document.querySelector('.cart-items');
+        const cartSubtotal = document.querySelector('.cart-subtotal');
+        const emptyCartMessage = document.querySelector('.empty-cart');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        const mobileCartIcon = document.querySelector('.mobile-menu .cart-icon');
+        
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Initialize cart
+        updateCart();
+        
+        // Toggle cart dropdown
+        cartIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cartDropdown.classList.toggle('active');
+        });
+
+        mobileCartIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cartDropdown.classList.toggle('active');
+            mobileMenu.classList.remove('active');
+            mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+        });
+        
+        closeCart.addEventListener('click', () => {
+            cartDropdown.classList.remove('active');
+        });
+        
+        // Close cart when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!cartDropdown.contains(e.target) && e.target !== cartIcon && !cartIcon.contains(e.target)) {
+                cartDropdown.classList.remove('active');
+            }
+        });
+        
+        // Add to cart event listeners
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const product = {
+                    id: parseInt(button.dataset.id),
+                    name: button.dataset.name,
+                    price: parseFloat(button.dataset.price),
+                    image: button.dataset.image,
+                    quantity: 1
+                };
+                addToCart(product);
+            });
+        });
+        
+        // Add to cart function
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            
+            updateCart();
+            showAddToCartNotification(product.name);
+            cartDropdown.classList.add('active');
+        }
+        
+        // Remove from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+        
+        // Update cart UI and localStorage
+        function updateCart() {
+            // Save to localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+            
+            // Update cart count
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.textContent = totalItems;
+            if (mobileCartIcon) {
+                mobileCartIcon.querySelector('.cart-count').textContent = totalItems;
+            }
+            
+            // Update cart items
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                cartItemsContainer.innerHTML = '';
+                cartSubtotal.textContent = '$0.00';
+                return;
+            }
+            
+            emptyCartMessage.style.display = 'none';
+            
+            // Calculate subtotal
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+            
+            // Render cart items
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-name">${item.name}</h4>
+                        <p class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</p>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Show add to cart notification
+        function showAddToCartNotification(productName) {
+            const notification = document.createElement('div');
+            notification.className = 'add-to-cart-notification';
+            notification.innerHTML = `
+                <span>${productName} added to cart</span>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Style for notification
+        const notificationStyle = document.createElement('style');
+        notificationStyle.textContent = `
+            .add-to-cart-notification {
+                position: fixed;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: var(--accent-gold);
+                color: var(--bg-dark);
+                padding: 1rem 2rem;
+                border-radius: 4px;
+                font-size: 0.9rem;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .add-to-cart-notification.show {
+                opacity: 1;
+            }
+        `;
+        document.head.appendChild(notificationStyle);
+
+        // Smooth Scrolling with Lenis.js
+        const lenis = new Lenis({
+            lerp: 0.08,
+            smooth: true,
+            direction: 'vertical'
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+
+        requestAnimationFrame(raf);
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Collection navigation active state
+        const collectionNavLinks = document.querySelectorAll('.collection-nav-link');
+        collectionNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                collectionNavLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
+
+        // GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate elements on scroll
+        gsap.utils.toArray('.product-card').forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: "power3.out"
+            });
+        });
+        // RESET FILTERS BUTTON LOGIC FOR WOMEN'S COLLECTION PAGE
+      
+document.querySelector('.filter-reset').addEventListener('click', function(e) {
+    e.preventDefault();
+
+    // Reset all checkboxes to checked (or use false if your default state is unchecked)
+    document.querySelectorAll('.filter-options input[type="checkbox"]').forEach(input => {
+        input.checked = true; // Or false, depending on your default
+    });
+
+    // Reset price range (set to max)
+    const priceInput = document.querySelector('.price-range');
+    if (priceInput) {
+        priceInput.value = priceInput.max;
+    }
+
+    // Reset sorting
+    const sortSelect = document.querySelector('.sorting-select');
+    if (sortSelect) {
+        sortSelect.selectedIndex = 0;
+    }
+
+    // You must call your filter and sort function here to update the grid.
+    // Replace `filterAndSortProducts();` with your actual function if named differently.
+    if (typeof filterAndSortProducts === "function") {
+        filterAndSortProducts();
+    }
+    // If you're using static HTML, consider reloading the page to reset completely:
+    // location.reload();
+});
+        function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let total = cart.reduce((sum, i) => sum + i.quantity, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = total);
+}
+updateCartCount();
+
+window.addEventListener('storage', function(event) {
+    if (event.key === 'cart') {
+        if (typeof updateCartCount === "function") updateCartCount();
+        if (typeof renderCart === "function") renderCart();
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('fullPageSearchInput');
+    const searchBtn = document.getElementById('fullPageSearchBtn');
+    const resultsContainer = document.getElementById('searchResultsContainer');
+
+    // Dynamically extract product data from the DOM
+    const allProducts = Array.from(document.querySelectorAll('.product-card')).map((card, index) => {
+        const name = card.querySelector('.product-name')?.textContent.trim() || '';
+        const image = card.querySelector('.product-image')?.src || '';
+        const priceText = card.querySelector('.product-price')?.textContent || '';
+        const price = parseFloat(priceText.replace(/[^0-9.]/g, '')) || 0;
+
+        const category = card.closest('.flash-sale') ? "Flash Sale" :
+                         card.closest('.daily-deals') ? "Daily Deals" : "General";
+
+        return {
+            id: index + 1,
+            name,
+            image,
+            price,
+            category,
+            color: "", // optional if you want to add later
+            size: [],  // optional if you want to add later
+            new: card.innerHTML.includes('New'),
+            sale: card.innerHTML.includes('Sale')
+        };
+    });
+
+    function performSearch() {
+        const query = searchInput.value.trim().toLowerCase();
+        if (!query) {
+            resultsContainer.style.display = 'none';
+            return;
+        }
+
+        const results = allProducts.filter(product =>
+            product.name.toLowerCase().includes(query) ||
+            product.category.toLowerCase().includes(query)
+        );
+
+        displayResults(results);
+    }
+
+    function displayResults(results) {
+        if (results.length === 0) {
+            resultsContainer.innerHTML = '<div class="no-results">No products found matching your search</div>';
+            resultsContainer.style.display = 'block';
+            return;
+        }
+
+        resultsContainer.innerHTML = `
+            <div class="search-results-grid">
+                ${results.map(product => `
+                    <div class="product-card">
+                        ${product.new ? '<div class="product-badge">New</div>' : ''}
+                        ${product.sale ? '<div class="product-badge">Sale</div>' : ''}
+                        <div class="product-image-container">
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-price">$${product.price.toFixed(2)}</p>
+                            <button class="btn btn-primary add-to-cart" 
+                                    data-id="${product.id}" 
+                                    data-name="${product.name}" 
+                                    data-price="${product.price}" 
+                                    data-image="${product.image}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        // Reattach add-to-cart listeners
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const product = {
+                    id: parseInt(this.dataset.id),
+                    name: this.dataset.name,
+                    price: parseFloat(this.dataset.price),
+                    image: this.dataset.image,
+                    quantity: 1
+                };
+                addToCart(product);
+            });
+        });
+
+        resultsContainer.style.display = 'block';
+    }
+
+    searchInput.addEventListener('input', function() {
+        clearTimeout(this.timer);
+        this.timer = setTimeout(performSearch, 300);
+    });
+
+    searchBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        performSearch();
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.search-container') && !e.target.closest('.search-results-container')) {
+            resultsContainer.style.display = 'none';
+        }
+    });
+});
+    </script>
+ <script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.getElementById('collection-shape-bg');
+  if (!container) {
+    console.error('Container element not found');
+    return;
+  }
+
+  // Scene setup
+  const scene = new THREE.Scene();
+
+  const camera = new THREE.PerspectiveCamera(
+    60,
+    container.clientWidth / container.clientHeight,
+    0.1,
+    100
+  );
+  camera.position.set(0, 0, 10);
+
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    antialias: true
+  });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  // Matching Lighting with the First Script
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  dirLight.position.set(5, 5, 5);
+  scene.add(ambientLight, dirLight);
+
+  // TorusKnot Geometry with same material
+  const geometry = new THREE.TorusKnotGeometry(1.4, 0.18, 400, 64, 6, 5);
+
+  const material = new THREE.MeshPhysicalMaterial({
+    color: 0xc7a97f,
+    metalness: 0.8,
+    roughness: 0.25,
+    clearcoat: 1,
+    transparent: true,
+    opacity: 0.9,
+    sheen: 0.5,
+    sheenColor: new THREE.Color(0xffe9cb)
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    mesh.rotation.x += 0.0025;
+    mesh.rotation.y += 0.0015;
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  // Handle resize
+  window.addEventListener('resize', () => {
+    camera.aspect = container.clientWidth / container.clientHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(container.clientWidth, container.clientHeight);
+  });
+});
+    // GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to('.collection-hero-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.3 });
+        gsap.to('.collection-hero-subtitle', { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.6 });
+        gsap.to('.hero-btn', { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.9 });
+        gsap.utils.toArray('.section').forEach((section, idx) => {
+            if (idx > 0) {
+                gsap.from(section, {
+                    scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none none" },
+                    opacity: 0, y: 50, duration: 1, ease: "power3.out"
+                });
+            }
+        });
+       
+</script>
+
+
+</body>
+</html>

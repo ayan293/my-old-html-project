@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éclat | Luxury Fashion Marketplace</title>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@400;500;700&family=Satoshi:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <!-- Three.js -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/DRACOLoader.min.js"></script>
+    <!-- Lenis.js -->
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.35/dist/lenis.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <!-- Swiper -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Navigation (from first code) -->
+    <nav>
+        <div class="logo">ÉCLAT</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Collections</a>
+            <a href="#">Journal</a>
+        </div>
+        <div class="nav-icons">
+            <i class="fas fa-user" tabindex="0" aria-label="Account"></i>
+            <div class="cart-icon" tabindex="0" aria-label="Cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <!-- Cart Dropdown -->
+        <div class="cart-dropdown" aria-live="polite">
+            <div class="cart-header">
+                <h4 class="cart-title">Your Cart</h4>
+                <button class="close-cart" aria-label="Close cart">&times;</button>
+            </div>
+            <div class="cart-items">
+                <div class="empty-cart">Your cart is empty</div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <span>Subtotal:</span>
+                    <span class="cart-subtotal">$0.00</span>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-primary view-cart" style="width: 100%;">View Cart</button>
+                    <button class="btn btn-secondary checkout" style="width: 100%;">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu (from first code) -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Collections</a>
+            <a href="#">Journal</a>
+        </div>
+        <div class="mobile-menu-icons">
+            <i class="fas fa-search" tabindex="0" aria-label="Search"></i>
+            <i class="fas fa-user" tabindex="0" aria-label="Account"></i>
+            <div class="cart-icon" tabindex="0" aria-label="Cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section (Combined) -->
+    <section class="hero">
+        <div id="canvas-container"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Timeless Elegance, Modern Luxury</h1>
+            <p class="hero-subtitle">Discover our curated collection of premium apparel and accessories, crafted with
+                exceptional materials and attention to detail.</p>
+            <button class="btn btn-primary hero-btn">Explore Collections</button>
+        </div>
+    </section>
+
+
+    <section class="global-search-section">
+        <div class="container">
+            <div class="search-header">
+                <h2>Find Your Luxury Items</h2>
+                <p>Search across our entire collection</p>
+            </div>
+            <div class="search-container">
+                <input type="text" id="fullPageSearchInput" placeholder="Search all products, collections, and more..."
+                    autocomplete="off">
+                <button id="fullPageSearchBtn" class="search-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+            <div id="searchResultsContainer" class="search-results-container">
+                <!-- Results will appear here -->
+            </div>
+        </div>
+    </section>
+    <!-- Flash Sale Section (from second code) -->
+    <section class="section flash-sale">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Flash Sale</h2>
+                <div class="countdown">
+                    <span>Ends in:</span>
+                    <span class="countdown-item">12</span>
+                    <span>:</span>
+                    <span class="countdown-item">45</span>
+                    <span>:</span>
+                    <span class="countdown-item">30</span>
+                    <a href="#" class="section-link">View All <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 1 -->
+                <div class="product-card">
+                    <span class="product-badge">-30%</span>
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Cashmere Sweater" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Cashmere Sweater</h3>
+                        <div class="product-price">
+                            $495 <span class="original-price">$650</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="sold-count">(128)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="1" data-name="Premium Cashmere Sweater" data-price="495"
+                            data-image="https://images.unsplash.com/photo-1549298916-b41d501d3772?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card">
+                    <span class="product-badge">-15%</span>
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Leather Tote" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Leather Tote Bag</h3>
+                        <div class="product-price">
+                            $650
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="sold-count">(256)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="2" data-name="Designer Leather Tote Bag" data-price="650"
+                            data-image="https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Silk Blouse" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Luxury Silk Blouse</h3>
+                        <div class="product-price">
+                            $375
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="sold-count">(89)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="3" data-name="Luxury Silk Blouse" data-price="375"
+                            data-image="https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card">
+                    <span class="product-badge">-40%</span>
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1539533018447-63fcce2678e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Wool Overcoat" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Wool Overcoat</h3>
+                        <div class="product-price">
+                            $895 <span class="original-price">$1200</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="sold-count">(176)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="4" data-name="Wool Overcoat" data-price="895"
+                            data-image="https://images.unsplash.com/photo-1539533018447-63fcce2678e4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Deals Section (from second code) -->
+    <section class="section daily-deals">
+        <div class="container">
+            <div class="deals-header">
+                <h2 class="section-title">Daily Deals</h2>
+                <div class="deals-tabs">
+                    <button class="deals-tab active">Trending</button>
+                    <button class="deals-tab">Top Picks</button>
+                    <button class="deals-tab">New Arrivals</button>
+                </div>
+            </div>
+
+            <div class="products-grid">
+                <!-- Product 5 -->
+                <div class="product-card">
+                    <span class="product-badge">Limited</span>
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Tailored Pants" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Tailored Wool Pants</h3>
+                        <div class="product-price">
+                            $425
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="sold-count">(342)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="5" data-name="Tailored Wool Pants" data-price="425"
+                            data-image="https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Leather Jacket" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Leather Jacket</h3>
+                        <div class="product-price">
+                            $1,250
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="sold-count">(198)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="6" data-name="Premium Leather Jacket" data-price="1250"
+                            data-image="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card">
+                    <span class="product-badge">-25%</span>
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Silk Dress" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Silk Evening Dress</h3>
+                        <div class="product-price">
+                            $780 <span class="original-price">$950</span>
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★☆</span>
+                            <span class="sold-count">(112)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="7" data-name="Silk Evening Dress" data-price="780"
+                            data-image="https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+
+                <!-- Product 8 -->
+                <div class="product-card">
+                    <div class="product-image-container">
+                        <img src="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80"
+                            alt="Designer Watch" class="product-image">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Chronograph Watch</h3>
+                        <div class="product-price">
+                            $2,450
+                        </div>
+                        <div class="product-rating">
+                            <span class="stars">★★★★★</span>
+                            <span class="sold-count">(76)</span>
+                        </div>
+                        <button class="add-to-cart" data-id="8" data-name="Designer Chronograph Watch" data-price="2450"
+                            data-image="https://images.unsplash.com/photo-1595341888016-a392ef81b7de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80">Add
+                            to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter (from first code) -->
+    <section class="section newsletter">
+        <div class="container">
+            <h2 class="newsletter-title">Join Our World</h2>
+            <p class="newsletter-subtitle">Subscribe to receive updates on new collections, exclusive offers, and
+                styling inspiration.</p>
+            <form class="newsletter-form" onsubmit="return subscribeNewsletter(event);">
+                <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                <button type="submit" class="btn btn-secondary">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer (from first code) -->
+    <footer class="section">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Shop</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Men's</a></li>
+                        <li><a href="#">Women's</a></li>
+                        <li><a href="#">New Arrivals</a></li>
+                        <li><a href="#">Accessories</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Information</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Journal</a></li>
+                        <li><a href="#">Stores</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Customer Service</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Shipping</a></li>
+                        <li><a href="#">Returns</a></li>
+                        <li><a href="#">Care Guide</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2023 ÉCLAT. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Pinterest</a>
+                    <a href="#">Twitter</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle (from first code)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const mobileMenuLinks = document.querySelectorAll('.mobile-menu-links a');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ?
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+
+        // Cart functionality - improved accessibility and event delegation (from first code)
+        const cartIcon = document.querySelector('nav .cart-icon');
+        const cartDropdown = document.querySelector('.cart-dropdown');
+        const closeCart = document.querySelector('.close-cart');
+        const cartCount = document.querySelectorAll('.cart-count');
+        const cartItemsContainer = document.querySelector('.cart-items');
+        const cartSubtotal = document.querySelector('.cart-subtotal');
+        const emptyCartMessage = document.querySelector('.empty-cart');
+        const mobileCartIcon = document.querySelector('.mobile-menu .cart-icon');
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        updateCart();
+
+        // Cart dropdown toggle
+        cartIcon.addEventListener('click', (e) => {
+            e.stopPropagation();
+            cartDropdown.classList.toggle('active');
+        });
+        if (mobileCartIcon) {
+            mobileCartIcon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                cartDropdown.classList.add('active');
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        }
+        closeCart.addEventListener('click', () => {
+            cartDropdown.classList.remove('active');
+        });
+
+        // Close cart when clicking outside
+        document.addEventListener('click', (e) => {
+            const isInsideCartDropdown = cartDropdown.contains(e.target);
+            const isCartIcon = cartIcon.contains(e.target);
+            const isMobileCartIcon = mobileCartIcon && mobileCartIcon.contains(e.target);
+            const isRemoveBtn = e.target.classList.contains('cart-item-remove');
+
+            if (!isInsideCartDropdown && !isCartIcon && !isMobileCartIcon && !isRemoveBtn) {
+                cartDropdown.classList.remove('active');
+            }
+        });
+
+        // Event delegation for add-to-cart
+        document.body.addEventListener('click', function (e) {
+            if (e.target.classList.contains('add-to-cart')) {
+                const button = e.target;
+                const product = {
+                    id: parseInt(button.dataset.id),
+                    name: button.dataset.name,
+                    price: parseFloat(button.dataset.price),
+                    image: button.dataset.image,
+                    quantity: 1
+                };
+                addToCart(product);
+            }
+            if (e.target.classList.contains('cart-item-remove')) {
+                const productId = parseInt(e.target.dataset.id);
+                removeFromCart(productId);
+            }
+        });
+
+        // Add to cart function
+        function addToCart(product) {
+            const existingItem = cart.find(item => item.id === product.id);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push(product);
+            }
+            updateCart();
+            showAddToCartNotification(product.name);
+            cartDropdown.classList.add('active');
+        }
+
+        // Remove from cart function
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+
+        // Update cart UI and localStorage
+        function updateCart() {
+            localStorage.setItem('cart', JSON.stringify(cart));
+            // Update all cart counts (desktop & mobile)
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCount.forEach(cc => cc.textContent = totalItems);
+
+            // Update cart items
+            if (cart.length === 0) {
+                emptyCartMessage.style.display = 'block';
+                cartItemsContainer.innerHTML = '';
+                cartSubtotal.textContent = '$0.00';
+                return;
+            }
+            emptyCartMessage.style.display = 'none';
+
+            // Calculate subtotal
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            cartSubtotal.textContent = `$${subtotal.toFixed(2)}`;
+
+            // Render cart items
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item">
+                    <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                    <div class="cart-item-details">
+                        <h4 class="cart-item-name">${item.name}</h4>
+                        <p class="cart-item-price">$${(item.price * item.quantity).toFixed(2)}</p>
+                        <button class="cart-item-remove" data-id="${item.id}">Remove</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show add to cart notification
+        function showAddToCartNotification(productName) {
+            const notification = document.createElement('div');
+            notification.className = 'add-to-cart-notification';
+            notification.innerHTML = `<span>${productName} added to cart</span>`;
+            document.body.appendChild(notification);
+            setTimeout(() => notification.classList.add('show'), 10);
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+
+        // Notification CSS
+        if (!document.getElementById('notif-style')) {
+            const notificationStyle = document.createElement('style');
+            notificationStyle.id = 'notif-style';
+            notificationStyle.textContent = `
+                .add-to-cart-notification {
+                    position: fixed;
+                    bottom: 20px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    background-color: var(--accent-gold);
+                    color: var(--bg-dark);
+                    padding: 1rem 2rem;
+                    border-radius: 4px;
+                    font-size: 0.9rem;
+                    opacity: 0;
+                    pointer-events: none;
+                    transition: opacity 0.3s ease;
+                    z-index: 1000;
+                }
+                .add-to-cart-notification.show {
+                    opacity: 1;
+                    pointer-events: initial;
+                }
+            `;
+            document.head.appendChild(notificationStyle);
+        }
+
+        // Swiper for featured products
+        const swiper = new Swiper('.swiper', {
+            slidesPerView: 1,
+            spaceBetween: 20,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            breakpoints: {
+                768: { slidesPerView: 2, spaceBetween: 30 },
+                992: { slidesPerView: 3, spaceBetween: 40 }
+            }
+        });
+
+        // Lenis smooth scroll
+        const lenis = new Lenis({ lerp: 0.08, smooth: true, direction: 'vertical' });
+        function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+        requestAnimationFrame(raf);
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+
+
+        // GSAP animations
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to('.hero-title', { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.3 });
+        gsap.to('.hero-subtitle', { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.6 });
+        gsap.to('.hero-btn', { opacity: 1, y: 0, duration: 1, ease: "power3.out", delay: 0.9 });
+        gsap.utils.toArray('.section').forEach((section, idx) => {
+            if (idx > 0) {
+                gsap.from(section, {
+                    scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none none" },
+                    opacity: 0, y: 50, duration: 1, ease: "power3.out"
+                });
+            }
+        });
+        gsap.utils.toArray('.product-card').forEach((el, idx) => {
+            gsap.from(el, {
+                scrollTrigger: { trigger: el, start: "top 80%", toggleActions: "play none none none" },
+                opacity: 0, y: 50, duration: 0.8, delay: idx * 0.1, ease: "power3.out"
+            });
+        });
+
+        // Newsletter subscribe (non-functional, but UX enhancement)
+        function subscribeNewsletter(event) {
+            event.preventDefault();
+            const input = document.querySelector('.newsletter-input');
+            if (input.value) {
+                showAddToCartNotification('Thank you for subscribing!');
+                input.value = '';
+            }
+            return false;
+        }
+
+        // Daily deals tabs functionality
+        const dealsTabs = document.querySelectorAll('.deals-tab');
+        dealsTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                dealsTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                // In a real implementation, you would filter products here
+            });
+        });
+
+        // Flash sale countdown timer
+        function updateCountdown() {
+            const countdownItems = document.querySelectorAll('.countdown-item');
+            let hours = parseInt(countdownItems[0].textContent);
+            let minutes = parseInt(countdownItems[1].textContent);
+            let seconds = parseInt(countdownItems[2].textContent);
+
+            seconds--;
+            if (seconds < 0) {
+                seconds = 59;
+                minutes--;
+                if (minutes < 0) {
+                    minutes = 59;
+                    hours--;
+                    if (hours < 0) {
+                        // Sale ended
+                        clearInterval(countdownInterval);
+                        return;
+                    }
+                }
+            }
+
+            countdownItems[0].textContent = hours.toString().padStart(2, '0');
+            countdownItems[1].textContent = minutes.toString().padStart(2, '0');
+            countdownItems[2].textContent = seconds.toString().padStart(2, '0');
+        }
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const allProducts = Array.from(document.querySelectorAll('.product-card')).map((card, index) => {
+                const name = card.querySelector('.product-name')?.textContent.trim() || "";
+                const image = card.querySelector('.product-image')?.getAttribute('src') || "";
+                const priceText = card.querySelector('.product-price')?.textContent.trim() || "";
+                const price = parseFloat(priceText.replace(/[^0-9.]/g, "")) || 0;
+                const category = card.closest('.flash-sale') ? "flash-sale" :
+                    card.closest('.daily-deals') ? "daily-deals" :
+                        "general";
+
+                return {
+                    id: index + 1,
+                    name,
+                    image,
+                    price,
+                    category,
+                    section: category // used for scrollIntoView
+                };
+            });
+
+            const searchInput = document.getElementById('fullPageSearchInput');
+            const searchBtn = document.getElementById('fullPageSearchBtn');
+            const resultsContainer = document.getElementById('searchResultsContainer');
+
+            // Perform search function
+            function performSearch() {
+                const query = searchInput.value.trim();
+
+                if (!query) {
+                    resultsContainer.style.display = 'none';
+                    return;
+                }
+
+                const searchTerm = query.toLowerCase();
+                const results = allProducts.filter(product =>
+                    product.name.toLowerCase().includes(searchTerm) ||
+                    product.category.toLowerCase().includes(searchTerm)
+                );
+
+                displayResults(results);
+            }
+
+            // Display results function
+            function displayResults(results) {
+                if (results.length === 0) {
+                    resultsContainer.innerHTML = '<div class="no-results">No products found matching your search</div>';
+                    resultsContainer.style.display = 'block';
+                    return;
+                }
+
+                resultsContainer.innerHTML = `
+            <div class="search-results-grid">
+                ${results.map(product => `
+                    <div class="search-result-card" data-id="${product.id}" data-section="${product.section}">
+                        <img src="${product.image}" alt="${product.name}" class="search-result-image">
+                        <div class="search-result-info">
+                            <div class="search-result-category">${product.category}</div>
+                            <h3 class="search-result-name">${product.name}</h3>
+                            <div class="search-result-price">
+                                $${product.price.toFixed(2)}
+                                ${product.originalPrice ? `<span class="original-price">$${product.originalPrice.toFixed(2)}</span>` : ''}
+                                ${product.badge ? `<span style="color:var(--sale-red);margin-left:8px;">${product.badge}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+                // Add click handlers to result cards
+                document.querySelectorAll('.search-result-card').forEach(card => {
+                    card.addEventListener('click', function () {
+                        const section = this.getAttribute('data-section');
+                        if (section) {
+                            const targetSection = document.querySelector(`.${section}`);
+                            if (targetSection) {
+                                targetSection.scrollIntoView({ behavior: 'smooth' });
+                            }
+                        }
+                    });
+                });
+
+                resultsContainer.style.display = 'block';
+            }
+
+            // Event listeners
+            searchInput.addEventListener('input', function () {
+                clearTimeout(this.timer);
+                this.timer = setTimeout(performSearch, 300);
+            });
+
+            searchBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                performSearch();
+            });
+
+            // Close results when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!e.target.closest('.search-container') && !e.target.closest('.search-results-container')) {
+                    resultsContainer.style.display = 'none';
+                }
+            });
+        });
+    </script>
+    <script type="module">
+        import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.1/build/three.module.js';
+
+        const container = document.getElementById('canvas-container');
+        let scene, camera, renderer, mesh;
+
+        function initThreeJS() {
+            // Scene
+            scene = new THREE.Scene();
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+            camera.position.set(0, 0, 10);
+
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                alpha: true,
+                antialias: true,
+                powerPreference: "high-performance"
+            });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Lighting (Luxury Setup)
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+            directionalLight.position.set(5, 5, 5);
+            scene.add(ambientLight, directionalLight);
+
+            // Material (Luxury Gold)
+            const material = new THREE.MeshPhysicalMaterial({
+                color: 0xc7a97f,                        // Gold
+                metalness: 0.8,
+                roughness: 0.25,
+                clearcoat: 1.0,
+                transparent: true,
+                opacity: 0.9,
+                sheen: 0.5,
+                sheenColor: new THREE.Color(0xffe9cb)
+            });
+
+            // Geometry (TorusKnot)
+            const geometry = new THREE.TorusKnotGeometry(1, 0.4, 100, 16);
+            mesh = new THREE.Mesh(geometry, material);
+            scene.add(mesh);
+
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                mesh.rotation.x += 0.002;
+                mesh.rotation.y += 0.003;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            // Responsive Resize
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        window.addEventListener('load', initThreeJS);
+    </script>
+
+</body>
+
+</html>

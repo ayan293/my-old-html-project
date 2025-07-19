@@ -1,0 +1,898 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product | Éclat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@400;500;700&family=Satoshi:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --bg-dark: #0f0f0f;
+            --bg-darker: #080808;
+            --accent-gold: #c7a97f;
+            --accent-cream: #e8e0d5;
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --glass-bg: rgba(15, 15, 15, 0.6);
+            --glass-border: rgba(200, 200, 200, 0.1);
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Satoshi', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 500;
+            letter-spacing: -0.5px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            padding: 0 5%;
+            margin: 0 auto;
+            max-width: 1600px;
+        }
+
+        /* Navigation (reused from your main site) */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.8rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        nav.scrolled {
+            padding: 1.2rem 5%;
+            background-color: rgba(8, 8, 8, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .logo {
+            font-family: 'Neue Montreal', sans-serif;
+            font-weight: 500;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            color: var(--accent-cream);
+        }
+
+        /* Product Page */
+        .product-page {
+            padding-top: 8rem;
+            padding-bottom: 8rem;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .product-viewer {
+            position: relative;
+            height: 80vh;
+            background-color: var(--bg-darker);
+            border-radius: 8px;
+            overflow: hidden;
+            top: -300px;
+        }
+
+        #main-product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            
+        }
+
+        .product-viewer:hover #main-product-image {
+            transform: scale(1.03);
+        }
+
+        .product-details {
+            position: relative;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cream);
+            font-weight: 400;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+            margin-bottom: 2rem;
+        }
+
+        .product-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+            font-weight: 300;
+        }
+
+        .product-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .product-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .product-meta i {
+            color: var(--accent-gold);
+        }
+
+        /* Product Options */
+        .product-options {
+            margin-bottom: 2.5rem;
+        }
+
+        .option-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .option-title {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--accent-cream);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .size-options {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            padding: 0.8rem 1.2rem;
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .size-option:hover, .size-option.selected {
+            border-color: var(--accent-gold);
+            color: var(--accent-cream);
+        }
+
+        .size-option.sold-out {
+            opacity: 0.5;
+            text-decoration: line-through;
+            cursor: not-allowed;
+        }
+
+        .color-options {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .color-option.selected {
+            border-color: var(--accent-cream);
+        }
+
+        .color-option.selected::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 1px solid var(--accent-gold);
+            border-radius: 50%;
+        }
+
+        /* Quantity Selector */
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--accent-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .quantity-btn:hover {
+            border-color: var(--accent-gold);
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: var(--accent-cream);
+            font-size: 1rem;
+            font-family: 'Satoshi', sans-serif;
+        }
+
+        /* Add to Cart Button */
+        .add-to-cart-btn {
+            position: relative;
+            padding: 1.5rem 3rem;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
+            cursor: pointer;
+            transition: var(--transition);
+            overflow: hidden;
+            width: 100%;
+            margin-bottom: 3rem;
+        }
+
+        .add-to-cart-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            z-index: -1;
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .add-to-cart-btn:hover {
+            color: var(--bg-dark);
+        }
+
+        .add-to-cart-btn:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .add-to-cart-btn.glow {
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 5px rgba(199, 169, 127, 0.5);
+            }
+            to {
+                box-shadow: 0 0 20px rgba(199, 169, 127, 0.8);
+            }
+        }
+
+        /* Accordion */
+        .accordion {
+            margin-top: 3rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .accordion-item {
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .accordion-header {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .accordion-title {
+            color: var(--accent-cream);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .accordion-icon {
+            transition: var(--transition);
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding-bottom: 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.9rem;
+        }
+
+        /* Sticky Cart (for mobile) */
+        .sticky-cart {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--bg-darker);
+            padding: 1rem 5%;
+            border-top: 1px solid var(--glass-border);
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 900;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sticky-cart.visible {
+            transform: translateY(0);
+        }
+
+        .sticky-cart-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .sticky-cart-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .sticky-cart-name {
+            color: var(--accent-cream);
+            font-size: 0.9rem;
+        }
+
+        .sticky-cart-price {
+            color: var(--accent-gold);
+            font-size: 1rem;
+        }
+
+        .sticky-add-to-cart {
+            padding: 0.8rem 2rem;
+            background-color: var(--accent-gold);
+            color: var(--bg-dark);
+            border: none;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sticky-add-to-cart:hover {
+            background-color: var(--accent-cream);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--accent-gold);
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .product-viewer {
+                height: 70vh;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .product-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .product-viewer {
+                height: 60vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .product-page {
+                padding-top: 6rem;
+                padding-bottom: 6rem;
+            }
+
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .product-price {
+                font-size: 1.3rem;
+            }
+
+            .product-meta {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-viewer {
+                height: 50vh;
+            }
+
+            .sticky-cart-info {
+                gap: 1rem;
+            }
+
+            .sticky-cart-image {
+                width: 50px;
+                height: 50px;
+            }
+
+            .sticky-cart-name {
+                font-size: 0.8rem;
+            }
+
+            .sticky-cart-price {
+                font-size: 0.9rem;
+            }
+
+            .sticky-add-to-cart {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">ÉCLAT</div>
+        <div class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Collections</a>
+            <a href="#">Journal</a>
+        </div>
+        <div class="nav-icons">
+            <i class="fas fa-search" tabindex="0" aria-label="Search"></i>
+            <i class="fas fa-user" tabindex="0" aria-label="Account"></i>
+            <div class="cart-icon" tabindex="0" aria-label="Cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+        <button class="mobile-menu-btn" aria-label="Open mobile menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#">Home</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Collections</a>
+            <a href="#">Journal</a>
+        </div>
+        <div class="mobile-menu-icons">
+            <i class="fas fa-search" tabindex="0" aria-label="Search"></i>
+            <i class="fas fa-user" tabindex="0" aria-label="Account"></i>
+            <div class="cart-icon" tabindex="0" aria-label="Cart">
+                <i class="fas fa-shopping-bag"></i>
+                <span class="cart-count">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Page Content -->
+    <main class="product-page">
+        <div class="container">
+            <div class="product-container" id="product-container">
+                <!-- Content will be injected by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Sticky Add to Cart (for mobile) -->
+    <div class="sticky-cart" id="sticky-cart">
+        <div class="sticky-cart-info">
+            <img id="sticky-cart-image" src="" alt="" class="sticky-cart-image">
+            <div>
+                <div class="sticky-cart-name" id="sticky-cart-name"></div>
+                <div class="sticky-cart-price" id="sticky-cart-price"></div>
+            </div>
+        </div>
+        <button class="sticky-add-to-cart" id="sticky-add-to-cart">Add to Cart</button>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast-notification"></div>
+
+    <script>
+        /* ---- PRODUCT DATA ---- */
+        const products = [
+            {
+                id: 101,
+                name: "Cashmere Sweater",
+                price: 295,
+                image: "https://images.unsplash.com/photo-1598033129183-c4f50c736f10?auto=format&fit=crop&w=1000&q=80",
+                desc: "Crafted from the finest Mongolian cashmere, our overshirt combines luxurious comfort with timeless design. The relaxed fit and subtle texture make it a versatile piece for both casual and refined occasions.",
+                colors: [
+                    {name:"Cream", hex:"#e8e0d5"},
+                    {name:"Charcoal", hex:"#3a3a3a"},
+                    {name:"Navy", hex:"#23365b"}
+                ],
+                sizes: ["XS","S","M","L","XL","XXL"],
+                soldOutSizes: ["XXL"],
+                reviews: 128,
+                rating: 4.9,
+                details: [
+                    "100% Mongolian cashmere",
+                    "Relaxed fit with subtle texture",
+                    "Hidden button placket",
+                    "Two front pockets",
+                    "Made in Italy"
+                ],
+                care: [
+                    "Dry clean only",
+                    "Do not bleach",
+                    "Store folded in a cool, dry place",
+                    "Avoid prolonged exposure to sunlight"
+                ],
+                shipping: [
+                    "Free worldwide shipping",
+                    "Express delivery available",
+                    "30-day return policy",
+                    "Items must be unworn with tags attached"
+                ]
+            },
+            {
+                id: 102,
+                name: "Leather Jacket",
+                price: 650,
+                image: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?auto=format&fit=crop&w=1000&q=80",
+                desc: "Classic leather jacket, timeless and bold. Handcrafted from premium Italian leather with a supple feel that improves with age. Features a tailored fit with a notched lapel and multiple pockets.",
+                colors: [
+                    {name:"Black", hex:"#222"},
+                    {name:"Brown", hex:"#5a3921"}
+                ],
+                sizes: ["S","M","L"],
+                soldOutSizes: [],
+                reviews: 102,
+                rating: 4.8,
+                details: [
+                    "100% Italian leather",
+                    "Tailored fit with notched lapel",
+                    "Multiple functional pockets",
+                    "Metal zipper closure",
+                    "Made in Portugal"
+                ],
+                care: [
+                    "Wipe clean with damp cloth",
+                    "Condition leather periodically",
+                    "Store on wide hanger",
+                    "Avoid water exposure"
+                ],
+                shipping: [
+                    "Free worldwide shipping",
+                    "Express delivery available",
+                    "30-day return policy",
+                    "Items must be unworn with tags attached"
+                ]
+            }
+        ];
+
+        /* ---- GET PRODUCT ID FROM URL ---- */
+        function getProductIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        /* ---- RENDER PRODUCT PAGE ---- */
+        function renderProduct(product) {
+            if(!product) {
+                document.getElementById('product-container').innerHTML = '<div style="font-size:2rem;color:#e57373;margin:2rem">Product Not Found</div>';
+                document.title = "Product Not Found | Éclat";
+                return;
+            }
+            
+            document.title = product.name + " | Éclat";
+            document.getElementById('product-container').innerHTML = `
+                <div class="product-viewer">
+                    <img id="main-product-image" src="${product.image}" alt="${product.name}" class="product-image">
+                </div>
+                <div class="product-details">
+                    <h1 class="product-title">${product.name}</h1>
+                    <div class="product-meta">
+                        <span><i class="fas fa-star"></i> ${product.rating} (${product.reviews} Reviews)</span>
+                        <span><i class="fas fa-box"></i> Free Shipping</span>
+                        <span><i class="fas fa-undo"></i> 30-Day Returns</span>
+                    </div>
+                    <div class="product-price">$${product.price}</div>
+                    <p class="product-description">${product.desc}</p>
+                    <div class="product-options">
+                        <div class="option-group">
+                            <span class="option-title">Size</span>
+                            <div class="size-options">
+                                ${product.sizes.map(size => 
+                                    `<div class="size-option${product.soldOutSizes.includes(size)?' sold-out':''}${size==='M'&&!product.soldOutSizes.includes(size)?' selected':''}" data-size="${size}">${size}</div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <span class="option-title">Color</span>
+                            <div class="color-options">
+                                ${product.colors.map((color,i)=>`
+                                    <div class="color-option${i===0?' selected':''}" style="background:${color.hex}" data-color="${color.name}" title="${color.name}"></div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <div class="option-group">
+                            <span class="option-title">Quantity</span>
+                            <div class="quantity-selector">
+                                <button class="quantity-btn" id="decrease-qty"><i class="fas fa-minus"></i></button>
+                                <input type="number" class="quantity-input" value="1" min="1" max="10">
+                                <button class="quantity-btn" id="increase-qty"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart-btn glow" id="add-to-cart">Add to Cart</button>
+                    <div class="accordion">
+                        <div class="accordion-item active">
+                            <div class="accordion-header">
+                                <h3 class="accordion-title">Product Details</h3>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    ${product.details.map(detail => `<p>• ${detail}</p>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h3 class="accordion-title">Care Instructions</h3>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    ${product.care.map(care => `<p>• ${care}</p>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <div class="accordion-header">
+                                <h3 class="accordion-title">Shipping & Returns</h3>
+                                <i class="fas fa-chevron-down accordion-icon"></i>
+                            </div>
+                            <div class="accordion-content">
+                                <div class="accordion-body">
+                                    ${product.shipping.map(shipping => `<p>• ${shipping}</p>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Update sticky cart info
+            document.getElementById('sticky-cart-image').src = product.image;
+            document.getElementById('sticky-cart-name').textContent = product.name;
+            document.getElementById('sticky-cart-price').textContent = `$${product.price}`;
+
+            // Size selection
+            document.querySelectorAll('.size-option:not(.sold-out)').forEach(el => {
+                el.addEventListener('click', () => {
+                    document.querySelectorAll('.size-option').forEach(e => e.classList.remove('selected'));
+                    el.classList.add('selected');
+                });
+            });
+
+            // Color selection
+            document.querySelectorAll('.color-option').forEach(el => {
+                el.addEventListener('click', () => {
+                    document.querySelectorAll('.color-option').forEach(e => e.classList.remove('selected'));
+                    el.classList.add('selected');
+                });
+            });
+
+            // Quantity logic
+            const decreaseBtn = document.getElementById('decrease-qty');
+            const increaseBtn = document.getElementById('increase-qty');
+            const quantityInput = document.querySelector('.quantity-input');
+            
+            decreaseBtn.addEventListener('click', () => {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) quantityInput.value = value - 1;
+            });
+            
+            increaseBtn.addEventListener('click', () => {
+                let value = parseInt(quantityInput.value);
+                if (value < 10) quantityInput.value = value + 1;
+            });
+
+            // Accordion functionality
+            const accordionItems = document.querySelectorAll('.accordion-item');
+            accordionItems.forEach(item => {
+                const header = item.querySelector('.accordion-header');
+                header.addEventListener('click', () => {
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Add to cart functionality
+            const addToCartBtn = document.getElementById('add-to-cart');
+            const stickyAddToCartBtn = document.getElementById('sticky-add-to-cart');
+            
+            function addToCart() {
+                const selectedSize = document.querySelector('.size-option.selected')?.dataset.size;
+                const selectedColor = document.querySelector('.color-option.selected')?.dataset.color;
+                const quantity = parseInt(quantityInput.value);
+                
+                if (!selectedSize || !selectedColor) {
+                    showToast('Please select size and color');
+                    return;
+                }
+                
+                // In a real app, you would add to cart here
+                showToast(`${product.name} added to cart (${selectedSize}, ${selectedColor}) x${quantity}`);
+            }
+            
+            addToCartBtn.addEventListener('click', addToCart);
+            stickyAddToCartBtn.addEventListener('click', addToCart);
+
+            // Sticky cart visibility
+            function checkStickyCartVisibility() {
+                const productDetails = document.querySelector('.product-details');
+                const stickyCart = document.getElementById('sticky-cart');
+                
+                if (productDetails) {
+                    const productDetailsBottom = productDetails.getBoundingClientRect().bottom;
+                    
+                    if (productDetailsBottom < window.innerHeight) {
+                        stickyCart.style.display = 'flex';
+                        setTimeout(() => stickyCart.classList.add('visible'), 10);
+                    } else {
+                        stickyCart.classList.remove('visible');
+                        setTimeout(() => {
+                            if (!stickyCart.classList.contains('visible')) {
+                                stickyCart.style.display = 'none';
+                            }
+                        }, 400);
+                    }
+                }
+            }
+            
+            window.addEventListener('scroll', checkStickyCartVisibility);
+            window.addEventListener('resize', checkStickyCartVisibility);
+            checkStickyCartVisibility();
+        }
+
+        /* ---- SHOW TOAST NOTIFICATION ---- */
+        function showToast(message) {
+            const toast = document.getElementById('toast-notification');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        /* ---- LOAD PRODUCT BY ID ---- */
+        const productId = getProductIdFromUrl();
+        const product = products.find(p => String(p.id) === String(productId));
+        renderProduct(product);
+
+        /* ---- NAVBAR SCROLL EFFECT ---- */
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        /* ---- MOBILE MENU TOGGLE ---- */
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = mobileMenu.classList.contains('active') ? 
+                '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+        });
+        function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let total = cart.reduce((sum, i) => sum + i.quantity, 0);
+    document.querySelectorAll('.cart-count').forEach(el => el.textContent = total);
+}
+updateCartCount();
+    </script>
+</body>
+</html>
